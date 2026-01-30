@@ -13,6 +13,10 @@ export async function initializeUserBoard(userId: string) {
   try {
     await connectDB();
 
+    if (!userId) {
+      throw new Error("Cannot initialize board: missing userId");
+    }
+
     const existingBoard = await Board.findOne({ userId, name: "Job Hunt" });
 
     if (existingBoard) {
@@ -41,5 +45,6 @@ export async function initializeUserBoard(userId: string) {
     return board;
   } catch (error) {
     console.error("Error initializing user board:", error);
+    throw error;
   }
 }

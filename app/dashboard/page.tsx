@@ -11,28 +11,17 @@ async function getBoard(userId: string) {
 
 	await connectDB();
 
-	let boardDoc = await Board.findOne({
+	const boardDoc = await Board.findOne({
 		userId: userId,
 		name: "Job Hunt",
-	}).populate({
-		path: "columns",
-		populate: {
-			path: "jobApplications",
-		},
-	});
-
-	if (!boardDoc) {
-		await initializeUserBoard(userId);
-		boardDoc = await Board.findOne({
-			userId: userId,
-			name: "Job Hunt",
-		}).populate({
+	})
+		.populate({
 			path: "columns",
 			populate: {
 				path: "jobApplications",
 			},
-		});
-	}
+		})
+		.lean();
 
 	if (!boardDoc) return null;
 
@@ -48,7 +37,11 @@ async function DashboardPage() {
 		redirect("/sign-in");
 	}
 
-	const board = await getBoard(session.user.id);
+	let board = await getBoard(session.user.id);
+	if (!board) {
+		await initializeUserBoard(session.user.id);
+		board = await getBoard(session.user.id);
+	}
 
 	return (
 		<div className="min-h-screen bg-white">
