@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board } from "@/lib/models";
+import { initializeUserBoard } from "@/lib/init-user-board";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import KanbanBoardClient from "@/components/kanban-board-client";
@@ -10,7 +11,7 @@ async function getBoard(userId: string) {
 
 	await connectDB();
 
-	const boardDoc = await Board.findOne({
+	let boardDoc = await Board.findOne({
 		userId: userId,
 		name: "Job Hunt",
 	}).populate({
@@ -19,6 +20,19 @@ async function getBoard(userId: string) {
 			path: "jobApplications",
 		},
 	});
+
+	if (!boardDoc) {
+		await initializeUserBoard(userId);
+		boardDoc = await Board.findOne({
+			userId: userId,
+			name: "Job Hunt",
+		}).populate({
+			path: "columns",
+			populate: {
+				path: "jobApplications",
+			},
+		});
+	}
 
 	if (!boardDoc) return null;
 
@@ -29,11 +43,12 @@ async function getBoard(userId: string) {
 
 async function DashboardPage() {
 	const session = await getSession();
-	const board = await getBoard(session?.user.id ?? "");
 
 	if (!session?.user) {
 		redirect("/sign-in");
 	}
+
+	const board = await getBoard(session.user.id);
 
 	return (
 		<div className="min-h-screen bg-white">
