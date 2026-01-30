@@ -5,17 +5,19 @@ import { Input } from "@/components/ui/input";
 import { signUp } from "@/lib/auth/auth-clients";
 import { Label } from "@radix-ui/react-label";
 import Link from "next/link";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignUp() {
 
 	const [name, setName] = useState("");
-	const[email,setEmail] = useState("");
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	
+
 	const [error, setError] = useState("");
 	const [loading, setLoading] = useState(false);
+
+	const router = useRouter();
 
 	async function handleSubmit(e: React.FormEvent) {
 		e.preventDefault();
@@ -23,19 +25,21 @@ export default function SignUp() {
 		setLoading(true);
 
 		try {
-			const result =await signUp.email({
+			const result = await signUp.email({
 				name,
 				email,
 				password
 			});
 
 			if (result.error) {
+				console.log(result.error.message);
 				setError(result.error.message ?? "Failed to sign up. Please try again.");
 			} else {
 				router.push("/dashboard");
 			}
-			
+
 		} catch (err) {
+			console.error(err);
 			setError("An unexpected error occurred. Please try again.");
 		} finally {
 			setLoading(false);
@@ -53,22 +57,22 @@ export default function SignUp() {
 				</CardHeader>
 				<form className="space-y-4" onSubmit={handleSubmit}>
 					<CardContent className="space-y-4">
-					{error &&
-						<div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
-					}
+						{error &&
+							<div className="rounded-md bg-destructive/15 p-3 text-sm text-destructive">{error}</div>
+						}
 						<div className="space-y-2">
 							<Label htmlFor="name" className="text-gray-700">Name</Label>
-							<Input id="name" type="text" placeholder="Your full name" value={name} onChange={(e)=> setName(e.target.value)}
+							<Input id="name" type="text" placeholder="Your full name" value={name} onChange={(e) => setName(e.target.value)}
 								className="mt-1 mb-4 w-full" required />
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="email" className="text-gray-700">Email</Label>
-							<Input id="email" type="email" placeholder="Your email address" value={email} onChange={(e)=> setEmail(e.target.value)}
+							<Input id="email" type="email" placeholder="Your email address" value={email} onChange={(e) => setEmail(e.target.value)}
 								className="mt-1 mb-4 w-full" required />
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor="password" className="text-gray-700">Password</Label>
-							<Input id="password" type="password" placeholder="Your password" value={password} onChange={(e)=> setPassword(e.target.value)}
+							<Input id="password" type="password" placeholder="Your password" value={password} onChange={(e) => setPassword(e.target.value)}
 								className="mt-1 mb-4 w-full" required />
 						</div>
 					</CardContent>
