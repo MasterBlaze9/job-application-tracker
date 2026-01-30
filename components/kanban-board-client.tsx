@@ -4,16 +4,16 @@ import dynamic from "next/dynamic";
 import type { Board } from "@/lib/models/models.types";
 
 const KanbanBoard = dynamic(() => import("@/components/kanban-board"), {
-  ssr: false,
-  loading: () => <p>Loading board...</p>,
+	ssr: false,
+	loading: () => <p>Loading board...</p>,
 });
 
 export default function KanbanBoardClient({
-  board,
-  userId,
+	board,
+	userId,
 }: {
-  board: Board;
-  userId: string;
+	board: Board;
+	userId: string;
 }) {
-  return <KanbanBoard board={board} userId={userId} />;
+	return <KanbanBoard board={board} userId={userId} />;
 }
