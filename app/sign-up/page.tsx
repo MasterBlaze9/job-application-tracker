@@ -32,7 +32,7 @@ export default function SignUp() {
 			});
 
 			if (result.error) {
-				console.log(result.error.message);
+			
 				setError(result.error.message ?? "Failed to sign up. Please try again.");
 			} else {
 				router.push("/dashboard");

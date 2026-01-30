@@ -26,20 +26,19 @@ export async function initializeUserBoard(userId: string) {
     });
 
     const columns = await Promise.all(
-      DEFAULT_COLUMNS.map((col) => 
+      DEFAULT_COLUMNS.map((col) =>
         Column.create({
           name: col.name,
           order: col.order,
           boardId: board._id,
-          jobApplicationId: [],
-        })
+          jobApplications: [],
+        }),
       ),
     );
     board.columns = columns.map((col) => col._id);
-		await board.save();
+    await board.save();
 
-		return board;
-		
+    return board;
   } catch (error) {
     console.error("Error initializing user board:", error);
   }
