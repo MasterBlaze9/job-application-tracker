@@ -75,11 +75,11 @@ export default function BoardList({
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
       {boards.map((board) => {
         const isEditing = editingId === board._id;
-   
+
         return (
           <div
             key={board._id}
-            className={`flex w-full rounded-md border p-3 flex flex-col gap-2 border-gray-200"
+            className={`flex w-full rounded-md border p-3 flex-col gap-2 border-gray-200"
               }`}
           >
             {isEditing ? (
@@ -109,33 +109,34 @@ export default function BoardList({
               </div>
             ) : (
               <>
-        
-                <div className="flex items-center justify-between gap-2">
-                  <Link
-                    href={`/dashboard/${board._id}`}
-                    className="font-semibold text-gray-900 hover:text-primary"
-                  >
+
+                <Link
+                  href={`/dashboard/${board._id}`}
+                  className="font-semibold text-gray-900 hover:text-primary"
+                >
+                  <div className="flex items-center justify-between gap-2">
                     {board.name}
-                  </Link>
-                  <div className="flex gap-1">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => startEdit(board)}
-                      aria-label={`Rename ${board.name}`}
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      onClick={() => handleDelete(board._id)}
-                      aria-label={`Delete ${board.name}`}
-                    >
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                    </Button>
+
+                    <div className="flex gap-1">
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => startEdit(board)}
+                        aria-label={`Rename ${board.name}`}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        onClick={() => handleDelete(board._id)}
+                        aria-label={`Delete ${board.name}`}
+                      >
+                        <Trash2 className="h-4 w-4 text-destructive" />
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                </Link>
               </>
             )}
           </div>

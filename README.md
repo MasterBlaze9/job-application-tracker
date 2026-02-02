@@ -1,3 +1,107 @@
+# Job Application Tracker
+
+A lightweight Kanban-style job application tracker built with Next.js and MongoDB. It provides boards, columns, drag-and-drop job application cards, and user authentication.
+
+## Features
+
+- User sign-up / sign-in (email & password)
+- Per-user default board initialization
+- Kanban board with drag-and-drop columns and cards
+- Create and manage job applications (title, company, notes, status)
+- Seed script to populate sample job applications
+
+## Tech Stack
+
+- Next.js (App Router)
+- React 19
+- Tailwind CSS
+- MongoDB + Mongoose
+- better-auth for authentication
+- @dnd-kit for drag-and-drop UI
+
+## Getting Started
+
+Prerequisites:
+
+- Node.js 18+ and a package manager (`npm`, `pnpm`, or `yarn`)
+- A MongoDB connection URI
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the development server:
+
+```bash
+npm run dev
+```
+
+Open http://localhost:3000 in your browser.
+
+Available npm scripts (from `package.json`):
+
+- `dev` - run Next.js in development mode
+- `build` - build for production
+- `start` - run built app
+- `lint` - run ESLint
+- `seed:jobs` - seed sample job applications (`tsx --env-file=.env.local script/seed.ts`)
+
+## Environment Variables
+
+Create a `.env.local` file at the project root with the variables below (example values omitted):
+
+- `MONGODB_URI` — MongoDB connection string used by `lib/db.ts`
+- `NEXT_PUBLIC_BASE_URL` — public base URL used by auth trusted origins (e.g. `http://localhost:3000`)
+- `NEXTAUTH_URL` — optional NextAuth URL (used by some auth flows)
+- `VERCEL_URL` — optional when deploying to Vercel (used for trusted origins)
+
+The project will throw an error if `MONGODB_URI` is not set when trying to connect.
+
+## Database & Auth Notes
+
+- Database connection logic lives in `lib/db.ts` and uses `mongoose`.
+- Authentication is implemented with `better-auth` and the MongoDB adapter in `lib/auth`.
+- When a new user is created the code initializes a default board for them via `lib/init-user-board.ts`.
+
+## Seeding Sample Data
+
+To seed sample job applications (reads `.env.local`), run:
+
+```bash
+npm run seed:jobs
+```
+
+## Project Structure (high-level)
+
+- `app/` — Next.js app routes and pages
+- `components/` — shared React components (boards, cards, dialogs)
+- `lib/` — utilities, DB connection, auth, actions
+- `public/` — static assets
+- `script/seed.ts` — seed script for demo data
+
+## Development Tips
+
+- Edit the UI in `components/` and page layouts in `app/`.
+- The kanban interactions use `@dnd-kit` and client components — check `components/kanban-board.tsx` and `components/kanban-board-client.tsx`.
+- Use the `seed:jobs` script to generate test data for a fresh database.
+
+## Deployment
+
+This project is ready to deploy to Vercel. Ensure the environment variables above are set in your deployment settings.
+
+## Contributing
+
+Contributions are welcome. Open issues or PRs for bug fixes and improvements. Keep changes focused and run linting before submitting.
+
+## License
+
+This repository has no license specified. Add a `LICENSE` file if you want to choose one.
+
+---
+
+If you'd like, I can also add a minimal `.env.local.example` template or update `package.json` scripts. Which would you prefer next?
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started

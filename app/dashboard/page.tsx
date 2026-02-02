@@ -8,6 +8,8 @@ import Link from "next/link";
 import { listBoards } from "@/lib/actions/boards";
 import CreateBoardDialog from "@/components/create-board-dialog";
 import BoardList from "@/components/board-list";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 async function getBoard(boardId: string, userId: string) {
 	await connectDB();
@@ -47,6 +49,7 @@ async function DashboardPage() {
 	return (
 		<div className="min-h-screen bg-white">
 			<div className="container mx-auto p-6">
+		
 				<div className="mb-6 flex flex-col gap-4">
 					<div className="flex items-center justify-between gap-4">
 						<div>
@@ -58,12 +61,12 @@ async function DashboardPage() {
 						<CreateBoardDialog />
 					</div>
 					<div className="flex gap-4">
-					<BoardList boards={boards} activeBoardId={activeBoardId} />
+						<BoardList boards={boards} activeBoardId={activeBoardId} />
 
 					</div>
 
 				</div>
-				
+
 			</div>
 		</div>
 	);

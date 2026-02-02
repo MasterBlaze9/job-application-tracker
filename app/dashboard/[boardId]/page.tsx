@@ -53,19 +53,19 @@ export default async function BoardPage({
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="flex flex-row pt-6 pl-2">
-        <Link
-          href="/dashboard"
-          className="text-primary hover:underline font-medium"
-        >
-          <Button variant={"ghost"}>
-            <ArrowLeft className="mr-2 h-4 w-4" />
-         Return to Dashboard
-          </Button>
-        </Link>
-
-      </div>
       <div className="container mx-auto p-6">
+        <div className="flex flex-row pt-6">
+          <Link
+            href="/dashboard"
+            className="text-primary hover:underline font-medium"
+          >
+            <Button variant={"ghost"}>
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Return to Dashboard
+            </Button>
+          </Link>
+
+        </div>
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-black">{board.name}</h1>
           <p className="text-gray-600">Track your job applications</p>
