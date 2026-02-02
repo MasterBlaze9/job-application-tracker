@@ -16,8 +16,8 @@ export default function ImageTabs() {
 						<Button
 							onClick={() => setActiveTab("organize")}
 							className={`rounded-lg px-6 py-3 text-sm font-medium transition-colors ${activeTab === "organize"
-									? "bg-primary text-white"
-									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+								? "bg-primary text-white"
+								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 								}`}
 						>
 							Organize Applications
@@ -25,8 +25,8 @@ export default function ImageTabs() {
 						<Button
 							onClick={() => setActiveTab("hired")}
 							className={`rounded-lg px-6 py-3 text-sm font-medium transition-colors ${activeTab === "hired"
-									? "bg-primary text-white"
-									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+								? "bg-primary text-white"
+								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 								}`}
 						>
 							Get Hired
@@ -34,8 +34,8 @@ export default function ImageTabs() {
 						<Button
 							onClick={() => setActiveTab("boards")}
 							className={`rounded-lg px-6 py-3 text-sm font-medium transition-colors ${activeTab === "boards"
-									? "bg-primary text-white"
-									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+								? "bg-primary text-white"
+								: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 								}`}
 						>
 							Manage Boards

@@ -4,6 +4,7 @@ export interface IBoard extends Document {
   name: string;
   userId: string;
   columns: mongoose.Types.ObjectId[];
+  isArchived?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,6 +26,11 @@ const BoardSchema: Schema = new Schema<IBoard>(
         ref: "Column",
       },
     ],
+    isArchived: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
 	{
 		timestamps: true

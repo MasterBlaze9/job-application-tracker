@@ -55,7 +55,6 @@ export async function createJobApplication(data: JobApplicationData) {
   }
 
   // Verify column belongs to board
-
   const column = await Column.findOne({
     _id: columnId,
     boardId: boardId,

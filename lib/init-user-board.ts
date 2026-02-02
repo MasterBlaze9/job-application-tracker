@@ -1,7 +1,7 @@
 import connectDB from "./db";
 import { Board, Column } from "./models";
 
-const DEFAULT_COLUMNS = [
+export const DEFAULT_COLUMNS = [
   { name: "Wishlist", order: 0 },
   { name: "Applied", order: 1 },
   { name: "Interviewing", order: 2 },

@@ -1,19 +1,21 @@
 import { getSession } from "@/lib/auth/auth";
 import connectDB from "@/lib/db";
 import { Board } from "@/lib/models";
-import { initializeUserBoard } from "@/lib/init-user-board";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import KanbanBoardClient from "@/components/kanban-board-client";
+import Link from "next/link";
+import { listBoards } from "@/lib/actions/boards";
+import CreateBoardDialog from "@/components/create-board-dialog";
+import BoardList from "@/components/board-list";
 
-async function getBoard(userId: string) {
-
-
+async function getBoard(boardId: string, userId: string) {
 	await connectDB();
 
 	const boardDoc = await Board.findOne({
-		userId: userId,
-		name: "Job Hunt",
+		_id: boardId,
+		userId,
+		isArchived: { $ne: true },
 	})
 		.populate({
 			path: "columns",
@@ -37,20 +39,31 @@ async function DashboardPage() {
 		redirect("/sign-in");
 	}
 
-	let board = await getBoard(session.user.id);
-	if (!board) {
-		await initializeUserBoard(session.user.id);
-		board = await getBoard(session.user.id);
-	}
+	const boards = (await listBoards()).data || [];
+
+	const activeBoardId = boards[0]?._id;
+
 
 	return (
 		<div className="min-h-screen bg-white">
 			<div className="container mx-auto p-6">
-				<div className="mb-6">
-					<h1 className="text-3xl font-bold text-black">Job Hunt</h1>
-					<p className="text-gray-600">Track your job applications</p>
+				<div className="mb-6 flex flex-col gap-4">
+					<div className="flex items-center justify-between gap-4">
+						<div>
+							<h1 className="text-3xl font-bold text-black">
+								Boards List
+							</h1>
+							<p className="text-gray-600">Track your job applications</p>
+						</div>
+						<CreateBoardDialog />
+					</div>
+					<div className="flex gap-4">
+					<BoardList boards={boards} activeBoardId={activeBoardId} />
+
+					</div>
+
 				</div>
-				<KanbanBoardClient board={board} userId={session.user.id} />
+				
 			</div>
 		</div>
 	);

@@ -23,6 +23,7 @@ interface Column {
 interface Board {
   _id: string;
   name: string;
+  isArchived?: boolean;
   columns: Column[];
 }
 
