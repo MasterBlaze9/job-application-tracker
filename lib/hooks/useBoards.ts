@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Board, Column, JobApplication } from "../models/models.types";
 import { updateJobApplication } from "../actions/job-applications";
+import { deleteColumn as deleteColumnAction } from "../actions/boards";
 
 export function useBoard(initialBoard?: Board | null) {
   const [board, setBoard] = useState<Board | null>(initialBoard || null);
@@ -86,5 +87,20 @@ export function useBoard(initialBoard?: Board | null) {
     }
   }
 
-  return { board, columns, error, moveJob };
+  async function deleteColumn(columnId: string) {
+    setColumns((prev) => prev.filter((c) => c._id !== columnId));
+
+    try {
+      const boardId = board?._id || initialBoard?._id || "";
+      if (!boardId) return;
+      const result = await deleteColumnAction(boardId, columnId);
+      if ((result as any)?.error) {
+        setError((result as any).error);
+      }
+    } catch (err) {
+      console.error("Error deleting column", err);
+    }
+  }
+
+  return { board, columns, error, moveJob, deleteColumn };
 }

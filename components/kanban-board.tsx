@@ -78,11 +78,13 @@ function DroppableColumn({
 	config,
 	boardId,
 	sortedColumns,
+	deleteColumn,
 }: {
 	column: Column;
 	config: ColConfig;
 	boardId: string;
 	sortedColumns: Column[];
+	deleteColumn?: (id: string) => void | Promise<void>;
 }) {
 	const { setNodeRef, isOver } = useDroppable({
 		id: column._id,
@@ -117,7 +119,10 @@ function DroppableColumn({
 							</Button>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="end">
-							<DropdownMenuItem className="text-destructive">
+							<DropdownMenuItem
+								className="text-destructive"
+								onClick={() => deleteColumn && deleteColumn(column._id)}
+							>
 								<Trash2 className="mr-2 h-4 w-4" />
 								Delete Column
 							</DropdownMenuItem>
@@ -190,7 +195,7 @@ function SortableJobCard({
 
 export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
 	const [activeId, setActiveId] = useState<string | null>(null);
-	const { columns, moveJob } = useBoard(board);
+	const { columns, moveJob, deleteColumn } = useBoard(board);
 
 	const sortedColumns = columns?.sort((a, b) => a.order - b.order) || [];
 
@@ -324,6 +329,7 @@ export default function KanbanBoard({ board, userId }: KanbanBoardProps) {
 								column={col}
 								config={config}
 								boardId={board._id}
+								deleteColumn={deleteColumn}
 								sortedColumns={sortedColumns}
 							/>
 						);
